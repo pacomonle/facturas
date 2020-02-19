@@ -48,15 +48,16 @@ public class ProductosController {
 
 
 // Ejercicio
-/*    @GetMapping("/{id}/")
+    @GetMapping("/{id}/")
     public Producto getProducto(
 
         @PathParam("id") Long id){
-
-            return  repositoryProducto();
+            
+            System.out.println(repositoryProducto.findById(id));
+            return  repositoryProducto.findById(id).get();
 
         }
- */       
+        
     
 
 
