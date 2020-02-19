@@ -15,6 +15,12 @@ import org.springframework.stereotype.Repository;
 public interface Repositoryproducto extends CrudRepository <Producto, Long> {
 
  //   Iterable<Producto> findByName(String name);
+ //   repositoryProducto.findAll();
+
+ // public Iterable<Producto> getAllbyDescripcionLikeIterable(String ){  }
+
+// PagingAndRepository.class <T, Id>
+
 
 }
 

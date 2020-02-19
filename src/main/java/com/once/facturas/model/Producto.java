@@ -76,7 +76,13 @@ public class Producto {
 		this.descripcion = descripcion;
 		this.fabricante = fabricante;
 		this.precio = precio;
-	}
+    }
+    
+    // constructor por defecto
+
+    public Producto(){
+
+    }
 
    
      
