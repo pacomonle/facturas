@@ -1,5 +1,7 @@
 package com.once.facturas.controller;
 
+import java.util.NoSuchElementException;
+
 import javax.websocket.server.PathParam;
 
 import com.once.facturas.model.Producto;
@@ -8,6 +10,7 @@ import com.once.facturas.model.Repositoryproducto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,16 +51,22 @@ public class ProductosController {
 
 
 // Ejercicio
-    @GetMapping("/{id}/")
-    public Producto getProducto(
-
-        @PathParam("id") Long id){
-            
-            System.out.println(repositoryProducto.findById(id));
-            return  repositoryProducto.findById(id).get();
-
-        }
+@GetMapping("/{id}/")
+public Producto getProducto(@PathVariable Long id){
+    Producto productoid;
+    try{
+        productoid = repositoryProducto.findById(id).get();
         
+  // NoSuchElementException se lanza cuando tratas de acceder a un elemento 
+  // de una secuencia que no existe      
+
+    }catch(NoSuchElementException exception){
+        exception = new NoSuchElementException("No se encuentra el producto con id "+id);
+        System.out.println(exception.getMessage());
+        return null;
+    }
+    return productoid;  //recordar que productoid = repositoryProducto.findById(id).get();
+}
     
 
 
