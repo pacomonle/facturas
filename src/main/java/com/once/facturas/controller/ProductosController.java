@@ -1,13 +1,11 @@
 package com.once.facturas.controller;
 
-import java.util.NoSuchElementException;
-
-import javax.websocket.server.PathParam;
-
 import com.once.facturas.model.Producto;
 import com.once.facturas.model.Repositoryproducto;
 
+import org.hibernate.mapping.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,87 +13,67 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import antlr.collections.List;
-
-/**
- * MainController- ProductosController
- * 
- */
-
-// etiqueta para crear un controller
- 
-//@Controller
-
-@RestController
+@Controller
 @RequestMapping(value = "/productos")
 public class ProductosController {
 
-   
- // creamos el endpoint /producto - vamos a introducir datos  de nuevos productos  
-    
-     // primero llamamos al repositorio    
-     @Autowired
-     Repositoryproducto repositoryProducto;
-     
-     
-   // listado de productos
-   @GetMapping("/")
+    public static final String VISTA_LISTA = "lista";
+    public static final String VISTA_FORMULARIO = "formulario";
+
+    @Value("${aplicacion.nombre}")
+    private String nombreAplicacion;
+
+    @Autowired
+    Repositoryproducto repositoryProducto;
+
+     // listado de productos
+   @GetMapping("/listado")
+   @ResponseBody
+
    public Iterable<Producto> getAllProductos() {
 
       return repositoryProducto.findAll();
        
    }
 
-// Ejercicio excepciones java- try, catch y finally
-@GetMapping("/{id}/")
-public Producto getProductos(@PathVariable Long id){
-    Producto productoid;
-
-    repositoryProducto.count();
-    if(id>0 && id<=repositoryProducto.count()) {
-        productoid = repositoryProducto.findById(id).get();
-
-    }else{ //throw new NoSuchElementException();
-        NoSuchElementException  miException = new NoSuchElementException("Hay un error el productocon con id= "+id+ " no existe ");
-        System.out.println(miException.getMessage());
-        return null;
-    }
-    return productoid;
-} 
-
-
-
-
-
-
-
-// Ejercicio excepciones java- try, catch y finally
-@GetMapping("/{id}/")
-public Producto getProducto(@PathVariable Long id){
-    Producto productoid;
-
- // en el try ponemos el codigo que puede dar error   
-    try{
-        productoid = repositoryProducto.findById(id).get();
+   @GetMapping("/lista")
+   public ModelAndView listarModelAndView() {
+       ModelAndView mav = new ModelAndView();
+       mav.addObject("titulo", nombreAplicacion);
+       mav.addObject("productos", repositoryProducto.findAll());
+       mav.setViewName("VISTA_LISTA");
+       return mav;
+   }
+   
+   @GetMapping("/crear")
+    public String crear(Map model) {
+      
+        Producto producto = new Producto();
+        model.put("producto", producto);
+        model.put("titulo", nombreAplicacion);
         
-  // Java.util- NoSuchElementException se lanza cuando tratas de acceder a un elemento 
-  // de una secuencia que no existe      
-
-// en el catch entre parentesisnva (tipo variable) y luego {gestion de la exceppcion} 
-    }catch(NoSuchElementException exception){
-        NoSuchElementException miError = new NoSuchElementException("Hay un error el producto con id= "+id+ " no existe ");
-        System.out.println(miError.getMessage()); //.getMessage es el metodo que lanza mi excepcion con un string 
-        return null;
+        return VISTA_FORMULARIO;
     }
-    return productoid;  //recordar que productoid = repositoryProducto.findById(id).get();
-}
     
+    @PostMapping("/guardar")
+    public String guardar(Producto producto) {
+        repositoryProducto.save(producto);
+        
+        return "redirect:" + VISTA_LISTA;
+    }
+    
+    @GetMapping("/eliminar/{id}")
+    public String eliminar(@PathVariable(value="id") Long id) {
+        repositoryProducto.eliminar(id);
+
+        return "redirect:../" + VISTA_LISTA;
+    }
 
 
-   // creamos directorio producto para crear nuevos productos
+
+
      @GetMapping("/producto")
      @ResponseBody
      public ModelAndView creaProducto() {
@@ -106,7 +84,7 @@ public Producto getProducto(@PathVariable Long id){
      }
  
      @PostMapping("/producto")
-     public ModelAndView clientePost(
+     public ModelAndView productoPost(
          @RequestParam("descripcion") String descripcion,
          @RequestParam("fabricante") String fabricante,
          @RequestParam("precio") Float precio
@@ -118,24 +96,5 @@ public Producto getProducto(@PathVariable Long id){
          
          return modelAndView;
      }
-
-
-    
-     // creamos el endpoint /contar - vamos a contar el numero de productos que tenemos
-
-     
-
-     @GetMapping("/count")
-     @ResponseBody
-     public String countProducto() {
-
-       return "Tengo un total de " + String.valueOf(repositoryProducto.count()) + " productos " ;
-
-     }
-
-     
-
-
-
-
-}   
+  
+}

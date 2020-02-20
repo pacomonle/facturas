@@ -72,3 +72,74 @@ java.sql.Date d = new java.sql.Date(2002, 0, 12);
 ```
 
 Por defecto, todo fichero tiene precargado el import de java.lang.*;
+
+
+// count()
+long i = 8;
+String str  = String.valueOf(i);
+System.out.println(str);
+
+String str2 = ""+i;
+System.out.println(str2);
+
+
+
+Para que el controlador tenga un mapeo específico:
+
+```java
+@RequestMapping(value = "/productos")
+class ProductoController {
+```
+
+
+
+Para generar un controlador REST:
+
+1. Anotar la clase con @RestController (cuando haces una llamada GET la web te responde en json)
+
+
+## Rutas
+
+URL / URI :
+
+http://localhost:8080/productos/0/
+
+#### Protocolo:
+- http:// Cómo vamos a acceder a esta dirección
+
+Otros protocolos:
+- https://
+- file://
+- jdbc:mysql//
+- odbc:mysql//
+
+#### Host
+- localhost
+
+Otros host:
+- google.com
+- facebook.com
+- 98.67.65.32
+
+### Puerto
+- :8080 (Standard de Tomcat, que servidor de aplicaciones de Spring Boot)
+
+Otros puertos:
+- :80 (por defecto en http) : puerto de http
+- :443 (por defecto https): puerto de https
+
+Podemos elegir el puerto que queramos a partir del 1024
+Por debajo son por defecto.
+
+### Contexto de Aplicación
+- /
+
+Otros:
+- /nombreaplicacion/
+
+### Ruta
+- /productos/0/
+
+Otras:
+- /helloworld
+
