@@ -53,19 +53,18 @@ public class ProductosController {
 @GetMapping("/{id}/")
 public Producto getProductos(@PathVariable Long id){
     Producto productoid;
-    Long id;
-    repositoryProducto.size();
-    if(id>0 && id<=repositoryProducto.size() {
-        productoid = repositoryProducto.findById(id).get();
-        return productoid;
-  
 
-    }else{
-        NoSuchElementException  exception = new NoSuchElementException("Hay un error el productocon con id= "+id+ " no existe ");
-        System.out.println(exception.getMessage());
+    repositoryProducto.count();
+    if(id>0 && id<=repositoryProducto.count()) {
+        productoid = repositoryProducto.findById(id).get();
+
+    }else{ //throw new NoSuchElementException();
+        NoSuchElementException  miException = new NoSuchElementException("Hay un error el productocon con id= "+id+ " no existe ");
+        System.out.println(miException.getMessage());
         return null;
     }
- } 
+    return productoid;
+} 
 
 
 
@@ -77,15 +76,18 @@ public Producto getProductos(@PathVariable Long id){
 @GetMapping("/{id}/")
 public Producto getProducto(@PathVariable Long id){
     Producto productoid;
+
+ // en el try ponemos el codigo que puede dar error   
     try{
         productoid = repositoryProducto.findById(id).get();
         
   // Java.util- NoSuchElementException se lanza cuando tratas de acceder a un elemento 
   // de una secuencia que no existe      
 
+// en el catch entre parentesisnva (tipo variable) y luego {gestion de la exceppcion} 
     }catch(NoSuchElementException exception){
-        exception = new NoSuchElementException("Hay un error el productocon con id= "+id+ " no existe ");
-        System.out.println(exception.getMessage());
+        NoSuchElementException miError = new NoSuchElementException("Hay un error el producto con id= "+id+ " no existe ");
+        System.out.println(miError.getMessage()); //.getMessage es el metodo que lanza mi excepcion con un string 
         return null;
     }
     return productoid;  //recordar que productoid = repositoryProducto.findById(id).get();
