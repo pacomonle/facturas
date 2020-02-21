@@ -1,0 +1,86 @@
+<! DOCTYPE html >
+< html  lang = " es " >
+< cabeza >
+    < meta  charset = " UTF-8 " >
+    < meta  name = " viewport " content = " ancho = ancho del dispositivo, escala inicial = 1.0 " >
+    < título > Nuevo producto </ título >
+    < estilo >
+        div {
+            ancho : 400 px ;
+            alineación de texto : derecha;
+            relleno inferior : 10 px ;
+            }
+        entrada {
+            ancho : 160 px ;
+            
+            }
+        # enviar {
+            ancho : 80 px ;
+            color de fondo : gris;
+            color : blanco;
+
+            }
+        mesa {
+            ancho : 100 % ;
+        }
+        th {
+           
+            borde : 2 px de ranura rgba ( 73 , 108 , 155 , 0.87 );
+            color de fondo : gris;
+            color : blanco;
+            relleno : 5 px ;
+            alinear texto : centro;
+            }
+        td {
+            colapso del borde : colapso;
+            alinear texto : centro;
+            borde : 1 px de ranura gris;
+        }
+
+    </ estilo >
+</ cabeza >
+< cuerpo >
+    < h1 > Nuevo Producto </ h1 >
+    < p > Introduccir los datos del nuevo producto </ p >
+    < form  action = " / producto " method = " POST " >
+        < div >
+        < ul  style = " list-style: none; " >
+            < li >
+                < etiqueta > Descripción: < input  type = " text " name = " descripcion " /> </ label > 
+            </ li >
+            < li >
+                < etiqueta > Fabricante: < input  type = " text " name = " fabricante " > </ label >
+            </ li >
+            < li >
+                < label > Precio: < input  type = " text " name = " precio " > </ label >
+            </ li >
+        </ ul >
+        < input  id = " enviar " type = " submit " >
+        </ div > 
+        < p  th: text = " $ {mensaje} " > </ p >
+        < div >
+            < table  id = " list " >
+                < thead >
+                    < tr >
+                        < th > Id </ th >
+                        < th > Descripción </ th >
+                        < th > Fabricante </ th >
+                        < th > Precio </ th >
+                    </ tr >
+                </ thead >
+                < tbody >
+                    < tr  th: each = " producto: $ {productos} " >
+                        < td  th: text = " $ {producto.id} " > </ td >
+                        < td  th: text = " $ {producto.descripcion} " > </ td >
+                        < td  th: text = " $ {producto.fabricante} " > </ td >
+                        < td  th: text = " $ {producto.precio} " > </ td >
+                    </ tr >
+                </ tbody >
+            </ table >
+        </ div >  
+    </ form >
+
+
+    
+</ cuerpo >
+</ html >

@@ -1,5 +1,7 @@
 package com.once.facturas.controller;
 
+import java.util.HashMap;
+
 import com.once.facturas.model.Producto;
 import com.once.facturas.model.Repositoryproducto;
 
@@ -49,10 +51,10 @@ public class ProductosController {
    
    @GetMapping("/crear")
     public String crear(Map model) {
-      
+        Map<String, Object> newmodel = new HashMap<String, Object>();
         Producto producto = new Producto();
-        model.put("producto", producto);
-        model.put("titulo", nombreAplicacion);
+        newmodel.put("producto", producto);
+        newmodel.put("titulo", nombreAplicacion);
         
         return VISTA_FORMULARIO;
     }
@@ -66,7 +68,7 @@ public class ProductosController {
     
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable(value="id") Long id) {
-        repositoryProducto.eliminar(id);
+        repositoryProducto.findById(id).remove();
 
         return "redirect:../" + VISTA_LISTA;
     }
@@ -78,23 +80,52 @@ public class ProductosController {
      @ResponseBody
      public ModelAndView creaProducto() {
  
-         ModelAndView modelAndView=new ModelAndView("producto");
-         modelAndView.addObject("mensaje", "");
+         ModelAndView modelAndView=new ModelAndView("new_producto");
+         modelAndView.addObject("productos", repositoryProducto.findAll());
+         
+         Long suma = repositoryProducto.count();
+         modelAndView.addObject("mensaje", "Total artículos: "+String.valueOf(suma));
+         
          return modelAndView;
      }
  
      @PostMapping("/producto")
-     public ModelAndView productoPost(
+     public ModelAndView creaProductoPost(
          @RequestParam("descripcion") String descripcion,
          @RequestParam("fabricante") String fabricante,
          @RequestParam("precio") Float precio
      ){
-         ModelAndView modelAndView=new ModelAndView("producto");
+        
+        ModelAndView modelAndView=new ModelAndView("new_producto"); 
+        
+    try{
+            
          Producto producto=new Producto(descripcion, fabricante, precio);
-         
+         modelAndView.setViewName("new_producto");
          repositoryProducto.save(producto);
          
-         return modelAndView;
-     }
-  
+         modelAndView.addObject("productos", repositoryProducto.findAll());
+
+
+        //añadimos el contador de elementos
+        Long suma= repositoryProducto.count();
+        modelAndView.addObject("mensaje", "Total artículos: "+String.valueOf(suma));
+
+         return modelAndView; 
+    }
+
+    catch(Exception e){
+        
+        // ModelAndView modelAndView;
+		modelAndView.setViewName("404");
+        modelAndView.addObject("errormsg", e.getMessage());
+        return modelAndView;
+    }
+
+
+}
+
+
+
+
 }
