@@ -23,6 +23,10 @@ public class ProductosController {
 
     public static final String VISTA_LISTA = "lista";
     public static final String VISTA_FORMULARIO = "formulario";
+// anotación @Value para inicializar las propiedades.
+// Hemos hecho uso de spring expression language para acceder a cada uno de los valores
+// utilizando ${valor} . De esta forma tan sencilla seremos ya capaces de acceder a 
+// las propiedades definidas en el fichero application.properties
 
     @Value("${aplicacion.nombre}")
     private String nombreAplicacion;
@@ -51,7 +55,7 @@ public class ProductosController {
    
    @GetMapping("/crear")
     public String crear(Map model) {
-        Map<String, Object> newmodel = new HashMap<String, Object>();
+        java.util.Map<String, Object> newmodel = new HashMap<String, Object>();
         Producto producto = new Producto();
         newmodel.put("producto", producto);
         newmodel.put("titulo", nombreAplicacion);
@@ -65,15 +69,14 @@ public class ProductosController {
         
         return "redirect:" + VISTA_LISTA;
     }
+   
     
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable(value="id") Long id) {
-        repositoryProducto.findById(id).remove();
+        repositoryProducto.deleteById(id);
 
         return "redirect:../" + VISTA_LISTA;
     }
-
-
 
 
      @GetMapping("/producto")
