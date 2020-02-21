@@ -31,7 +31,7 @@ import antlr.collections.List;
 //@Controller
 
 @RestController
-@RequestMapping(value = "/productos")
+@RequestMapping(value = "/api/productos")
 public class ProductosApiController {
 
    

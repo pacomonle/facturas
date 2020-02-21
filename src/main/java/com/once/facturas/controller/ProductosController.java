@@ -18,11 +18,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping(value = "/productos")
-public class ProductosController {
+@RequestMapping(value = "/vista")
+public class ProductosController  {
 
-    public static final String VISTA_LISTA = "lista";
-    public static final String VISTA_FORMULARIO = "formulario";
+ 
 // anotación @Value para inicializar las propiedades.
 // Hemos hecho uso de spring expression language para acceder a cada uno de los valores
 // utilizando ${valor} . De esta forma tan sencilla seremos ya capaces de acceder a 
@@ -34,56 +33,13 @@ public class ProductosController {
     @Autowired
     Repositoryproducto repositoryProducto;
 
-     // listado de productos
-   @GetMapping("/listado")
-   @ResponseBody
-
-   public Iterable<Producto> getAllProductos() {
-
-      return repositoryProducto.findAll();
-       
-   }
-
-   @GetMapping("/lista")
-   public ModelAndView listarModelAndView() {
-       ModelAndView mav = new ModelAndView();
-       mav.addObject("titulo", nombreAplicacion);
-       mav.addObject("productos", repositoryProducto.findAll());
-       mav.setViewName("VISTA_LISTA");
-       return mav;
-   }
-   
-   @GetMapping("/crear")
-    public String crear(Map model) {
-        java.util.Map<String, Object> newmodel = new HashMap<String, Object>();
-        Producto producto = new Producto();
-        newmodel.put("producto", producto);
-        newmodel.put("titulo", nombreAplicacion);
-        
-        return VISTA_FORMULARIO;
-    }
     
-    @PostMapping("/guardar")
-    public String guardar(Producto producto) {
-        repositoryProducto.save(producto);
-        
-        return "redirect:" + VISTA_LISTA;
-    }
-   
-    
-    @GetMapping("/eliminar/{id}")
-    public String eliminar(@PathVariable(value="id") Long id) {
-        repositoryProducto.deleteById(id);
-
-        return "redirect:../" + VISTA_LISTA;
-    }
-
 
      @GetMapping("/producto")
      @ResponseBody
      public ModelAndView creaProducto() {
  
-         ModelAndView modelAndView=new ModelAndView("new_producto");
+         ModelAndView modelAndView=new ModelAndView("newProducto");
          modelAndView.addObject("productos", repositoryProducto.findAll());
          
          Long suma = repositoryProducto.count();
@@ -99,12 +55,12 @@ public class ProductosController {
          @RequestParam("precio") Float precio
      ){
         
-        ModelAndView modelAndView=new ModelAndView("new_producto"); 
+        ModelAndView modelAndView=new ModelAndView("newProducto"); 
         
     try{
             
          Producto producto=new Producto(descripcion, fabricante, precio);
-         modelAndView.setViewName("new_producto");
+         modelAndView.setViewName("newProducto");
          repositoryProducto.save(producto);
          
          modelAndView.addObject("productos", repositoryProducto.findAll());

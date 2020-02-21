@@ -1,86 +1,86 @@
-<!DOCTYPE html>! DOCTYPE html >
-<html  lang = " es " >
-<cabeza >
-    <meta  charset = " UTF-8 " >
-    <meta  name = " viewport " content = " ancho = ancho del dispositivo, escala inicial = 1.0 " >
-    <título > Nuevo producto </título >
-    <estilo >
-        div {
-            ancho : 400 px ;
-            alineación de texto : derecha;
-            relleno inferior : 10 px ;
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevo producto</title>
+    <style>
+        div{
+            width:400px;
+            text-align: right;
+            padding-bottom: 10px;
             }
-        entrada {
-            ancho : 160 px ;
+        input{
+            width: 160px;
             
             }
-        # enviar {
-            ancho : 80 px ;
-            color de fondo : gris;
-            color : blanco;
+        #enviar{
+            width: 80px;
+            background-color: gray;
+            color: white;
 
             }
-        mesa {
-            ancho : 100 % ;
+        table{
+            width: 100%;
         }
-        th {
+        th{
            
-            borde : 2 px de ranura rgba ( 73 , 108 , 155 , 0.87 );
-            color de fondo : gris;
-            color : blanco;
-            relleno : 5 px ;
-            alinear texto : centro;
+            border: 2px groove rgba(73,108,155,0.87);
+            background-color: gray;
+            color: white;
+            padding: 5px;
+            text-align: center;
             }
-        td {
-            colapso del borde : colapso;
-            alinear texto : centro;
-            borde : 1 px de ranura gris;
+        td{
+            border-collapse: collapse;
+            text-align: center;
+            border: 1px groove gray;
         }
 
-    </estilo >
-</cabeza >
-<cuerpo >
-    <h1 > Nuevo Producto </h1 >
-    <p > Introduccir los datos del nuevo producto </p >
-    <form  action = " / producto " method = " POST " >
-        <div >
-        <ul  style = " list-style: none; " >
-            <li >
-                <etiqueta > Descripción: <input  type = " text " name = " descripcion " /> </label > 
-            </li >
-            <li >
-                <etiqueta > Fabricante: <input  type = " text " name = " fabricante " > </label >
-            </li >
-            <li >
-                <label > Precio: <input  type = " text " name = " precio " > </label >
-            </li >
-        </ul >
-        <input  id = " enviar " type = " submit " >
-        </div > 
-        <p  th: text = " $ {mensaje} " > </p >
-        <div >
-            <table  id = " list " >
-                <thead >
-                    <tr >
-                        <th > Id </th >
-                        <th > Descripción </th >
-                        <th > Fabricante </th >
-                        <th > Precio </th >
-                    </tr >
-                </thead >
-                <tbody >
-                    <tr  th: each = " producto: $ {productos} " >
-                        <td  th: text = " $ {producto.id} " > </td >
-                        <td  th: text = " $ {producto.descripcion} " > </td >
-                        <td  th: text = " $ {producto.fabricante} " > </td >
-                        <td  th: text = " $ {producto.precio} " > </td >
-                    </tr >
-                </tbody >
-            </table >
-        </div >  
-    </form >
+    </style>
+</head>
+<body>
+    <h1>Nuevo Producto</h1>
+    <p>Introduccir los datos del nuevo producto</p>
+    <form action="/vista/producto" method="POST">
+        <div>
+        <ul style="list-style: none;">
+            <li>
+                <label>Descripción: <input type="text" name="descripcion"/></label> 
+            </li>
+            <li>
+                <label>Fabricante: <input type="text" name="fabricante"></label>
+            </li>
+            <li>
+                <label>Precio: <input type="text" name="precio"></label>
+            </li>
+        </ul>
+        <input id="enviar" type="submit">
+        </div> 
+        <p th:text="${mensaje}"></p>
+        <div>
+            <table id="list">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Descripción</th>
+                        <th>Fabricante</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="producto : ${productos}">
+                        <td th:text="${producto.id}"></td>
+                        <td th:text="${producto.descripcion}"></td>
+                        <td th:text="${producto.fabricante}"></td>
+                        <td th:text="${producto.precio}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>  
+    </form>
 
 
     
-</cuerpo >
-</html >
+</body>
+</html>
